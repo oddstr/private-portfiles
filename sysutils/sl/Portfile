@@ -1,0 +1,22 @@
+PortSystem 1.0
+
+name           sl
+version        3.0.3
+categories     sysutils
+maintainers    nomaintainer
+description    sl is a type correction utility
+long_description ${description}
+homepage       http://www.tkl.iis.u-tokyo.ac.jp/~toyoda/
+platforms      darwin
+
+master_sites   http://www.tkl.iis.u-tokyo.ac.jp/~toyoda/sl/
+distname       ${name}
+extract.suffix .tar
+extract.cmd    cat
+extract.pre_args
+checksums      md5 cc06b159f78f86bfd2d4e0e16330fbae
+
+patchfiles		patch-all.diff
+use_configure	no
+destroot.destdir DESTDIR=${destroot}${prefix}
+

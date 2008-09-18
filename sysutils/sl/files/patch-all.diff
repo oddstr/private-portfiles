@@ -1,0 +1,353 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 10_add_README_and_manpages.dpatch by  <yama1066@gmail.com>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: No description.
+#
+# Modified for Macports 2008/08/31
+
+@DPATCH@
+diff -urNad ./Makefile ./Makefile
+--- ./Makefile	1998-07-22 23:00:41.000000000 +0900
++++ ./Makefile	2007-12-02 16:05:14.000000000 +0900
+@@ -3,12 +3,39 @@
+ #	Copyright 1993,1998 Toyoda Masashi 
+ #		(toyoda@is.titech.ac.jp)
+ #	Last Modified: 1998/ 7/22
++#       Modify for Debian by Kenshi Muto <kmuto@debian.org>
++#         1999/ 6/14
+ #==========================================
+ 
+ CC=cc
+-CFLAGS=-O
++CFLAGS=-Wall -O # -DDEBUG
++LDFLAGS= -lcurses # -ltermcap
++
++PREFIX=$(DESTDIR)
++BINDIR=$(PREFIX)/bin
++MANDIR=$(PREFIX)/share/man
++INSTALL=install
++
++all: sl
+ 
+ sl: sl.c sl.h
+-	$(CC) $(CFLAGS) -o sl sl.c -lcurses -ltermcap
+-#	$(CC) $(CFLAGS) -o sl sl.c -lcurses
++	$(CC) $(CFLAGS) -o sl sl.c $(LDFLAGS)
++
++clean::
++	rm -f sl
+ 
++distclean:: clean
++
++install::
++	mkdir -p $(BINDIR)
++	$(INSTALL) -m 755 sl $(BINDIR)/
++	mkdir -p $(MANDIR)/man6
++	$(INSTALL) -m 644 sl.6 $(MANDIR)/man6/
++	mkdir -p $(MANDIR)/ja/man6
++	$(INSTALL) -m 644 sl.6j $(MANDIR)/ja/man6/sl.6
++	mkdir -p $(MANDIR)/ja.UTF-8/man6
++	$(INSTALL) -m 644 sl.6j.UTF-8 $(MANDIR)/ja.UTF-8/man6/sl.6
++	mkdir -p $(MANDIR)/de/man6
++	$(INSTALL) -m 644 sl.6de $(MANDIR)/de/man6/sl.6
++	mkdir -p $(MANDIR)/de.UTF-8/man6
++	$(INSTALL) -m 644 sl.6de.UTF-8 $(MANDIR)/de.UTF-8/man6/sl.6
+diff -urNad ./README ./README
+--- ./README	1998-07-22 23:00:03.000000000 +0900
++++ ./README	2007-12-02 16:05:14.000000000 +0900
+@@ -1,12 +1,10 @@
+ ===========================================
+- SL: $B%-!<%?%$%W6:@5%=%U%H(B
++ SL: Type cure software
+ 	Copyright 1993,1998 Toyoda Masashi
+ 		(toyoda@is.titech.ac.jp)
+ ===========================================
+ 
+-$B$`$+$7$K$bEj9F$5$l$?>iCL%=%U%H$N(B sl $B$N9k2ZHG$G$9!#(B
+-$B%"%$%G%"$O<Z$jJ*$G$9$,!"%W%m%0%i%`<+BN$O;d$N%*%j%8%J%k$G$9!#(B
+-a,l,F $B%*%W%7%g%s$,M-8z$G$9!#5!G=$O<B9T$7$F3N$+$a$F$/$@$5$$!#(B
+-make $B$9$l$P$G$-$"$,$j$^$9!#(B
+-
+-
++Sl is gradeup version of old joke program.
++This is borrowed idea, but program is my original.
++You can use option a,l,F. Check these future by execute!
++This software is made by "make".
+diff -urNad ./README.jp ./README.jp
+--- ./README.jp	1970-01-01 09:00:00.000000000 +0900
++++ ./README.jp	2007-12-02 16:05:14.000000000 +0900
+@@ -0,0 +1,12 @@
++===========================================
++ SL: $B%-!<%?%$%W6:@5%=%U%H(B
++	Copyright 1993,1998 Toyoda Masashi
++		(toyoda@is.titech.ac.jp)
++===========================================
++
++$B$`$+$7$K$bEj9F$5$l$?>iCL%=%U%H$N(B sl $B$N9k2ZHG$G$9!#(B
++$B%"%$%G%"$O<Z$jJ*$G$9$,!"%W%m%0%i%`<+BN$O;d$N%*%j%8%J%k$G$9!#(B
++a,l,F $B%*%W%7%g%s$,M-8z$G$9!#5!G=$O<B9T$7$F3N$+$a$F$/$@$5$$!#(B
++make $B$9$l$P$G$-$"$,$j$^$9!#(B
++
++
+diff -urNad ./sl.1 ./sl.1
+--- ./sl.1	1994-01-19 02:23:25.000000000 +0900
++++ ./sl.1	1970-01-01 09:00:00.000000000 +0900
+@@ -1,34 +0,0 @@
+-.\"
+-.\"  Copyright 1993 Toyoda Masashi.
+-.\"		(toyoda@is.titech.ac.jp)
+-.\"	@(#)sl.1	2.02  19/01/93
+-.\"
+-.TH SL 1 "Jan 19, 1993"
+-.SH $@L>>N(J
+-sl \- $@%-!<%?%$%W$r6:@5$7$^$9!#(J
+-.SH $@7A<0(J
+-.B sl
+-[
+-.B \-alF
+-]
+-.SH $@2r@b(J
+-.B sl
+-$@$O!"9bEY$KH/E8$7$?!"%-!<%?%$%W6:@5$rL\E*$H$9$k%"%K%a!<%7%g%s%W%m%0%i%`$G$9!#(J
+-.PP
+-$@<!$N$h$&$J%*%W%7%g%s$,$"$j$^$9!#(J
+-.TP
+-.B \-a
+-$@$J$K$+%"%/%7%G%s%H$,$"$C$?$h$&$G$9$M!#=u$1$r5a$a$k?M!9$,HaDK$G$9!#(J
+-.TP
+-.B \-l
+-$@>.$5$/$J$j$^$9!#(J
+-.TP
+-.B \-F
+-$@Ht$S$^$9!#(J
+-.PP
+-.SH $@4XO";v9`(J
+-.BR ls (1)
+-.SH $@%P%0(J
+-$@%+%l%s%H%G%#%l%/%H%j$NFbMF$,I=<($5$l$k$3$H$,$"$j$^$9!#(J
+-.SH $@Cx<T(J
+-$@K-ED(J $@@5;K!J(Jtoyoda@isea.is.titech.ac.jp$@!K(J
+diff -urNad ./sl.6 ./sl.6
+--- ./sl.6	1970-01-01 09:00:00.000000000 +0900
++++ ./sl.6	2007-12-02 16:05:14.000000000 +0900
+@@ -0,0 +1,41 @@
++.TH SL 6 "Jan 18, 2001"
++.UC 5
++.SH NAME
++sl \- display animations aimed to correct users who accidentally enter
++.B sl
++instead of 
++.BR ls .
++.SH SYNOPSIS
++.B sl
++[
++.B \-alF
++]
++.SH DESCRIPTION
++.B sl 
++Displays animations aimed to correct users who accidentally enter 
++.B sl 
++instead of 
++.BR ls . 
++.SH OPTIONS
++.TP
++.B \-a
++An accident seems to happen. You'll feel pity for people who cry for help.
++.TP
++.B \-l
++shows little one.
++.TP
++.B \-F
++It flies.
++.PP
++.SH "SEE ALSO"
++.BR ls (1)
++.SH BUGS
++It rarely shows contents of current directory.
++.SH AUTHOR
++.B sl
++was written by Toyoda Masashi <toyoda@is.titech.ac.jp>. This manual page was
++written by Brian Ristuccia
++<brianr@debian.org> and Kenshi Muto <kmuto@debian.org> for the Debian GNU/Linux system but may be used by
++others under the same license as 
++.B sl 
++itself.
+diff -urNad ./sl.6de ./sl.6de
+--- ./sl.6de	1970-01-01 09:00:00.000000000 +0900
++++ ./sl.6de	2007-12-02 16:05:14.000000000 +0900
+@@ -0,0 +1,46 @@
++.TH SL 6 "16. Juli 2004"
++\"
++\" Translated into german by Helge Kreutzmann <kreutzm@itp.uni-hannover.de>
++.UC 5
++.SH NAME
++sl \- stellt Animationen f?r Benutzer, die versehentlich
++.B sl
++anstatt
++.BR ls 
++eingeben, dar.
++.SH "?BERSICHT"
++.B sl
++[
++.B \-alF
++]
++.SH BESCHREIBUNG
++.B sl 
++stellt Animationen mit dem Ziel dar, Benutzer, die versehentlich
++.B sl 
++anstatt 
++.BR ls  
++eingeben, zu korrigieren.
++.SH OPTIONEN
++.TP
++.B \-a
++Ein Unfall scheint zu passieren. Sie werden mit den um Hilfe rufenden Personen
++Mitleid haben.
++.TP
++.B \-l
++Zeigt einen kleinen.
++.TP
++.B \-F
++Er fliegt.
++.PP
++.SH "SIEHE AUCH"
++.BR ls (1)
++.SH FEHLER
++Selten wird der Inhalt des aktuellen Verzeichnisses angezeigt.
++.SH AUTOR
++.B sl
++wurde von Toyoda Masashi <toyoda@is.titech.ac.jp> geschrieben. Diese Handbuchseite
++wurde von Brian Ristuccia <brianr@debian.org> und Kenshi Muto <kmuto@debian.org>
++f?r das Debian GNU/Linux-System geschrieben aber darf auch von anderen unter der
++gleichen Lizenz wie
++.B sl 
++verwendet werden.
+diff -urNad ./sl.6de.UTF-8 ./sl.6de.UTF-8
+--- ./sl.6de.UTF-8	1970-01-01 09:00:00.000000000 +0900
++++ ./sl.6de.UTF-8	2007-12-02 16:05:14.000000000 +0900
+@@ -0,0 +1,46 @@
++.TH SL 6 "16. Juli 2004"
++\"
++\" Translated into german by Helge Kreutzmann <kreutzm@itp.uni-hannover.de>
++.UC 5
++.SH NAME
++sl \- stellt Animationen für Benutzer, die versehentlich
++.B sl
++anstatt
++.BR ls 
++eingeben, dar.
++.SH "ÜBERSICHT"
++.B sl
++[
++.B \-alF
++]
++.SH BESCHREIBUNG
++.B sl 
++stellt Animationen mit dem Ziel dar, Benutzer, die versehentlich
++.B sl 
++anstatt 
++.BR ls  
++eingeben, zu korrigieren.
++.SH OPTIONEN
++.TP
++.B \-a
++Ein Unfall scheint zu passieren. Sie werden mit den um Hilfe rufenden Personen
++Mitleid haben.
++.TP
++.B \-l
++Zeigt einen kleinen.
++.TP
++.B \-F
++Er fliegt.
++.PP
++.SH "SIEHE AUCH"
++.BR ls (1)
++.SH FEHLER
++Selten wird der Inhalt des aktuellen Verzeichnisses angezeigt.
++.SH AUTOR
++.B sl
++wurde von Toyoda Masashi <toyoda@is.titech.ac.jp> geschrieben. Diese Handbuchseite
++wurde von Brian Ristuccia <brianr@debian.org> und Kenshi Muto <kmuto@debian.org>
++für das Debian GNU/Linux-System geschrieben aber darf auch von anderen unter der
++gleichen Lizenz wie
++.B sl 
++verwendet werden.
+diff -urNad ./sl.6j ./sl.6j
+--- ./sl.6j	1970-01-01 09:00:00.000000000 +0900
++++ ./sl.6j	2007-12-02 16:06:39.000000000 +0900
+@@ -0,0 +1,35 @@
++.\"
++.\"  Copyright 1993 Toyoda Masashi.
++.\"		(toyoda@is.titech.ac.jp)
++.\"	@(#)sl.6	2.02  19/01/93
++.\"
++.TH SL 6 "Jan 24, 2001"
++.UC 5
++.SH ̾??
++sl \- ?????????פ???��???ޤ???
++.SH ?��?
++.B sl
++[
++.B \-alF
++]
++.SH ????
++.B sl
++?ϡ????٤?ȯŸ???????????????׶?��????Ū?Ȥ??륢?˥᡼???????ץ���?????Ǥ???
++.PP
++???Τ褦?ʥ??ץ????󤬤????ޤ???
++.TP
++.B \-a
++?ʤˤ????????ǥ??Ȥ????ä??褦?Ǥ??͡??����????????͡??????ˤǤ???
++.TP
++.B \-l
++???????ʤ??ޤ???
++.TP
++.B \-F
++???Ӥޤ???
++.PP
++.SH ??Ϣ????
++.BR ls (1)
++.SH ?Х?
++???????ȥǥ??쥯?ȥ??????Ƥ?ɽ???????뤳?Ȥ??????ޤ???
++.SH ????
++˭?? ��??<toyoda@isea.is.titech.ac.jp>
+diff -urNad ./sl.6j.UTF-8 ./sl.6j.UTF-8
+--- ./sl.6j.UTF-8	1970-01-01 09:00:00.000000000 +0900
++++ ./sl.6j.UTF-8	2007-12-02 16:07:48.000000000 +0900
+@@ -0,0 +1,35 @@
++.\"
++.\"  Copyright 1993 Toyoda Masashi.
++.\"		(toyoda@is.titech.ac.jp)
++.\"	@(#)sl.6	2.02  19/01/93
++.\"
++.TH SL 6 "Jan 24, 2001"
++.UC 5
++.SH 名称
++sl \- キータイプを矯正します。
++.SH 形式
++.B sl
++[
++.B \-alF
++]
++.SH 解説
++.B sl
++は、高度に発展した、キータイプ矯正を目的とするアニメーションプログラムです。
++.PP
++次のようなオプションがあります。
++.TP
++.B \-a
++なにかアクシデントがあったようですね。助けを求める人々が悲痛です。
++.TP
++.B \-l
++小さくなります。
++.TP
++.B \-F
++飛びます。
++.PP
++.SH 関連事項
++.BR ls (1)
++.SH バグ
++カレントディレクトリの内容が表示されることがあります。
++.SH 著者
++豊田 正史<toyoda@isea.is.titech.ac.jp>

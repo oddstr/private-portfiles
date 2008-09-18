@@ -1,0 +1,17 @@
+PortSystem		1.0
+name			ipbt
+version			r7471
+categories		sysutil
+maintainers		nomaintainer
+description		ipbt is a terminal record player
+long_description		 \
+	ipbt is a curses-based playback utility for recordings of \
+	terminal sessions in either ttyrec or nh-recorder format.
+homepage		http://www.chiark.greenend.org.uk/~sgtatham/ipbt/
+master_sites	http://www.chiark.greenend.org.uk/~sgtatham/ipbt/
+checksums		md5 adc4659beb47709e709c34e3f2a175a4
+patchfiles		patch-Makefile.diff
+
+use_configure	no
+destroot.destdir prefix=${destroot}${prefix}
+

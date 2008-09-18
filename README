@@ -1,0 +1,10 @@
+Some private Portfiles for Macports.
+
+Available ports now are
+	editors/vim            added vimGdb
+	shells/zsh-devel       4.3.6 with wcwidth
+	sysutils/ttyrec        tty recorder/player
+	sysutils/ipbt          improved tty player
+	sysutils/sl            sl
+
+個人的Portfile置き場。

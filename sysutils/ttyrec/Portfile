@@ -1,0 +1,19 @@
+PortSystem		1.0
+name			ttyrec
+version			1.0.8
+categories		sysutil
+maintainers		nomainainer
+description		ttyrec is a tty recorder.
+long_description		 \
+	ttyrec is a tty recorder. \
+	Recorded data can be played back with the included ttyplay command.
+homepage		http://sourceforge.net/projects/ttyrec/
+master_sites	http://0xcc.net/ttyrec/ \
+				http://mirror.hentges.net/SonkeiSourceMirror/raw/ \
+				http://ftp.yz.yamagata-u.ac.jp/pub/FreeBSD/distfiles/ \
+				http://handhelds.org/~aquadran/distro/latest/sources/
+checksums	md5    ee74158c6c55ae16327595c70369ef83
+patchfiles		patch-Makefile.diff
+use_configure	no
+destroot.destdir prefix=${destroot}${prefix}
+

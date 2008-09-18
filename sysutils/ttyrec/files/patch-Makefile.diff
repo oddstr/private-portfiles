@@ -1,0 +1,21 @@
+--- Makefile.orig	2008-08-24 02:45:00.000000000 +0900
++++ Makefile	2008-08-24 02:42:08.000000000 +0900
+@@ -25,6 +25,18 @@
+ 	rm -rf ttyrec-$(VERSION)
+ 	rm -f ttyrec-$(VERSION).tar.gz
+ 
++install: install-doc
++	mkdir -p		$(prefix)/bin
++	install ttyrec		$(prefix)/bin
++	install ttyplay		$(prefix)/bin
++	install ttytime		$(prefix)/bin
++
++install-doc:
++	mkdir -p		$(prefix)/share/man/man1
++	install ttyrec.1	$(prefix)/share/man/man1
++	install ttyplay.1	$(prefix)/share/man/man1
++	install ttytime.1	$(prefix)/share/man/man1
++
+ 	mkdir ttyrec-$(VERSION)
+ 	cp $(DIST) ttyrec-$(VERSION)
+ 	tar zcf ttyrec-$(VERSION).tar.gz  ttyrec-$(VERSION)

@@ -1,0 +1,23 @@
+--- Makefile.orig	2008-08-24 17:18:41.000000000 +0900
++++ Makefile	2008-08-24 18:56:41.000000000 +0900
+@@ -51,6 +51,20 @@
+ ipbt.1 ipbt.html: ipbt.but
+ 	halibut --man=ipbt.1 --html=ipbt.html ipbt.but
+ 
++all: ipbt docs
++
++docs: ipbt.1 ipbt.html
++
++install:
++	mkdir -p		${prefix}/bin
++	install ipbt		${prefix}/bin/
++	install ttydump		${prefix}/bin/
++	install ttygrep		${prefix}/bin/
++	mkdir -p		${prefix}/share/man/man1
++	cp ipbt.1		${prefix}/share/man/man1/
++	mkdir -p		${prefix}/share/doc/ipbt
++	cp ipbt.html		${prefix}/share/doc/ipbt/
++
+ clean:
+ 	rm -f *.o ipbt sbcsdat.c
+ 	rm -f *.da *.bbg *.bb *.gcov gmon.out
